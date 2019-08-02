@@ -111,7 +111,7 @@ router.route('/users/:user_id')
                 // throw err;
                 res.send(err);
             }
-            //res.status(200).json({message: `user ${id} edit success`});
+            res.status(200).json({message: `user ${req.params.user_id} edit success`});
         });
     })
         // use our user model to find the user we want

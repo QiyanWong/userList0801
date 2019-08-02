@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
-import { getUsers, deleteUser, createUser, cancelRedirect, redirect, editUser } from '../../redux/action-creators';
+import { getUsers, deleteUser, createUser, resetRedirect, redirect, editUser } from '../../redux/action-creators';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import UserList from '../../components/UserList';
 import CreateUser from '../../components/CreateUser';
@@ -38,7 +38,7 @@ class App extends Component {
                 getUsers = {this.props.getUsers}
                 deleteUser = {this.props.deleteUser}
                 isLoading = {this.props.isLoading}
-                cancelRedirect = {this.props.cancelRedirect}
+                resetRedirect = {this.props.resetRedirect}
               /> 
             } 
           />
@@ -99,8 +99,8 @@ const mapDispatchToProps = (dispatch) => {
     redirectToUserlist: () => {
       dispatch(redirect());
     },
-    cancelRedirect: () => {
-      dispatch(cancelRedirect());
+    resetRedirect: () => {
+      dispatch(resetRedirect());
     },
     editUser: (id, user) => {
       dispatch(editUser(id, user));

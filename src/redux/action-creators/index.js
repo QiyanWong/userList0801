@@ -195,9 +195,9 @@ export const redirect = () => {
   };
 };
 
-export const cancelRedirect = () => {
+export const resetRedirect = () => {
   return {
-    type: 'CANCEL_REDIRECT'
+    type: 'RESET_REDIRECT'
   };
 };
 

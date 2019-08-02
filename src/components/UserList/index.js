@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 class UserList extends Component {
   componentDidMount() {
     this.props.dispatch(getUsers());
-    //this.props.cancelRedirect();
+    this.props.resetRedirect();
   }
   
   deleteUser = id => {
