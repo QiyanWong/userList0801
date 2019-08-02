@@ -23,10 +23,14 @@ const createUserSuccess = (user) => {
 export const createUser = (user) => {
   return (dispatch) => {
     dispatch(createUserStart());
-    axios
-      .post('http://localhost:8080/api/users')
+    axios({
+      method: 'POST',
+      url: 'http://localhost:8080/api/users',
+      data: user
+    })
       .then(response => {
-        dispatch(createUserSuccess(user));
+        console.log(response.data);
+        dispatch(createUserSuccess(response.data.newUser));
       })
       .catch(error => {
         dispatch(createUserFail(error));
@@ -48,26 +52,32 @@ const editUserFail = (error) => {
   };
 };
 
-const editUserSuccess = (id) => {
+const editUserSuccess = (id, user) => {
   return {
     type: 'EDIT_USER_SUCCESS',
-    id
+    id,
+    user
   };
-}
+};
 
-export const editUser = (id, editUser) => {
+export const editUser = (id, user) => {
   return (dispatch) => {
     dispatch(editUserStart());
     axios
-      .put(`http://localhost:8080/api/users/${id}`, editUser)
+      .put(`http://localhost:8080/api/users/${id}`, user)
       .then(response => {
-        dispatch(editUserSuccess(id));
-        dispatch(getUsers());
+        dispatch(editUserSuccess(id, user));
+        // console.log('this is in the edit user');
+        // console.log('test: edit user success!!!');
+        // console.log('test edit user id is', id);
+        // console.log('test edit user is', user);
+        //dispatch(getUsers());
+        //console.log(getUsers());
       })
       .catch(error => {
         dispatch(editUserFail(error));
       });
-  };
+   };
 };
 
 // Delete User
@@ -89,7 +99,7 @@ const deleteUserSuccess = (id) => {
     type: 'DELETE_USER_SUCCESS',
     id
   };
-}
+};
 
 export const deleteUser = (id, deleteUser) => {
   return (dispatch) => {
@@ -107,37 +117,73 @@ export const deleteUser = (id, deleteUser) => {
   };
 };
 
+// // Get User
+// const getUserStart = () => {
+//   return {
+//     type: 'GET_USER_START'
+//   };
+// };
+
+// const getUserFail = (error) => {
+//   return {
+//     type: 'GET_USER_ERROR',
+//     error
+//   };
+// };
+
+// const getUserSuccess = (id) => {
+//   return {
+//     type: 'GET_USER_SUCCESS',
+//     id
+//   };
+// }
+
+// export const getUser = (id, getUser) => {
+//   return (dispatch) => {
+//     dispatch(getUserStart());
+//     axios
+//       .get(`http://localhost:8080/api/users/${id}`, getUser)
+//       .then(response => {
+//         dispatch(getUserSuccess(id));
+//         console.log('get user success');
+//       })
+//       .catch(error => {
+//         dispatch(getUserFail(error));
+//       });
+//   };
+// };
+
 // Get Userlist
-const getUserStart = () => {
+const getUsersStart = () => {
   return {
-    type: 'GET_USER_START'
+    type: 'GET_USERS_START'
   };
 };
 
-const getUserFail = (error) => {
+const getUsersFail = (error) => {
   return {
-    type: 'GET_USER_ERROR',
+    type: 'GET_USERS_ERROR',
     error
   };
 };
 
-const getUserSuccess = (response) => {
+const getUsersSuccess = (response) => {
   return {
-    type: 'GET_USER_SUCCESS',
+    type: 'GET_USERS_SUCCESS',
     data: response
   };
-}
+};
 
 export const getUsers = () => {
   return (dispatch) => {
-    dispatch(getUserStart());
+    dispatch(getUsersStart());
     axios
       .get('http://localhost:8080/api/users', getUsers)
       .then(response => {
-        dispatch(getUserSuccess(response.data));
+        dispatch(getUsersSuccess(response.data));
       })
       .catch(error => {
-        dispatch(getUserFail(error));
+        dispatch(getUsersFail(error));
       });
   };
 };
@@ -154,7 +200,5 @@ export const cancelRedirect = () => {
     type: 'CANCEL_REDIRECT'
   };
 };
-
-
 
 

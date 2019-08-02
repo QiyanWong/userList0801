@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
-import { connect } from 'react-redux';
+//import { connect } from 'react-redux';
 import { getUsers, createUser } from '../../redux/action-creators';
 
 class CreateUser extends Component {
@@ -71,7 +71,9 @@ class CreateUser extends Component {
   render() {
     const passwordStyle = {color: 'red'};
     const { redirect } = this.props;
-    if (redirect) {
+    
+    console.log('!!!!~~~~test isLoading', this.props.isLoading);
+    if (redirect && !this.props.isLoading) {
       return <Redirect to = {{ pathname: '/' }}/>
     } else {
       return (
@@ -92,7 +94,7 @@ class CreateUser extends Component {
                <label htmlFor='passwordRepeat' style={this.state.passwordsSame === true? null : passwordStyle}>
                 Password Repeat: 
                </label> 
-              <input type = 'passoword' id = 'passwordRepeat' value = {this.state.passwordRepeat} onChange = {this.handleRepeatChange} required = {true} />
+              <input type = 'password' id = 'passwordRepeat' value = {this.state.passwordRepeat} onChange = {this.handleRepeatChange} required = {true} />
             </div> 
             <button type = "submit">Save User</button> 
           </form>
@@ -103,22 +105,22 @@ class CreateUser extends Component {
   }
 }
 
+export default CreateUser;
+// const mapStateToProps = (state) => {
+//   return {
+//     users: state.getUsers.users
+//   };
+// }
 
-const mapStateToProps = (state) => {
-  return {
-    users: state.getUsers.users
-  };
-}
+// const mapDispatchToProps = (dispatch) => {
+//   return {
+//     getUsers: () => {
+//       dispatch(getUsers());
+//     },
+//     createUser: (user) => {
+//       dispatch(createUser(user));
+//     }
+//   }
+// }
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    getUsers: () => {
-      dispatch(getUsers());
-    },
-    createUser: (user) => {
-      dispatch(createUser(user));
-    }
-  }
-}
-
-export default connect(mapStateToProps,mapDispatchToProps)(CreateUser);
+// export default connect(mapStateToProps,mapDispatchToProps)(CreateUser);
